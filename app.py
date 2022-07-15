@@ -11,7 +11,7 @@ db = SQLAlchemy(app)
 
 class Publisher(db.Model):
     __tablename__ = 'publisher'
-    id = db.Column(db.Integer, primary_key=True)
+    id_a = db.Column(db.Integer, primary_key=True)
     mensaje = db.Column(db.String(80), nullable=False)
     topic = db.Column(db.String(80), nullable=False)
     estatus = db.Column(db.Boolean, nullable=False)
@@ -19,7 +19,7 @@ class Publisher(db.Model):
 
 class Subscriber(db.Model):
     __tablename__ = 'subscriber'
-    id = db.Column(db.Integer, primary_key=True)
+    id_a = db.Column(db.Integer, primary_key=True)
     mirar_mensaje = db.Column(db.String(80), nullable=False)
     mirar_topic = db.Column(db.String(10), nullable=False)
 
@@ -34,11 +34,11 @@ def authenticate_data():
     try:
 
         comando = request.get_json()[type]
-        id = request.get_json()['id']
+        id_a = request.get_json()['id_a']
         mensaje = request.get_json()['mensaje']
         topic = request.get_json()['topic']
         estatus = request.get_json()['estatus']
-        db.session.query(Publisher).filter(Publisher.id == id).filter(
+        db.session.query(Publisher).filter(Publisher.id_a == id_a).filter(
             Publisher.mensaje == mensaje).filter(Publisher.topic == topic).filter(Publisher.estatus == estatus)
         response['type'] = comando
 
@@ -61,10 +61,10 @@ def response_data():
     try:
 
         comando2 = request.get_json()[type]
-        id = request.get_json()['id']
+        id_a = request.get_json()['id_a']
         mirar_mensaje = request.get_json()['mirar_mensaje']
         mirar_topic = request.get_json()['mirar_topic']
-        db.session.query(Publisher).filter(Subscriber.id == id).filter(
+        db.session.query(Publisher).filter(Subscriber.id_a == id_a).filter(
             Subscriber.mirar_mensaje == mirar_mensaje).filter(Subscriber.mirar_topic == mirar_topic)
         response['type'] = comando2
 
@@ -84,12 +84,6 @@ def response_data():
 def index():
     return render_template('index.html')
 
-
-'''
-@app.route('/men')
-def index():
-    return render_template('men.html')
-'''
 
 if __name__ == '__main__':
     app.run(port=5003, debug=True)
